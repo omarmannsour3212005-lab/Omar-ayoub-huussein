@@ -280,3 +280,61 @@ void generaReportTennisti() {
     printf("Report generato!\n");
 }
 
+int calculateCredits(int ranking)
+{
+    if(ranking <= 5)
+        return 35;
+
+    else if(ranking <= 10)
+        return 30;
+
+    else if(ranking <= 20)
+        return 25;
+
+    else if(ranking <= 50)
+        return 20;
+
+    else
+        return 10;
+}
+
+void addTennista()
+{
+    FILE *fp;
+
+    Tennista t;
+
+    fp = fopen("players.dat", "ab");
+
+    if(fp == NULL)
+    {
+        printf("Errore apertura file!\n");
+        return;
+    }
+
+    printf("\n===== ADD TENNISTA =====\n");
+
+    printf("Inserisci ID: ");
+    scanf("%d", &t.id);
+
+    printf("Inserisci nome: ");
+    scanf("%s", t.nome);
+
+    printf("Inserisci cognome: ");
+    scanf("%s", t.cognome);
+
+    printf("Inserisci ranking: ");
+    scanf("%d", &t.ranking);
+
+    printf("Disponibile (1/0): ");
+    scanf("%d", &t.disponibile);
+
+    // Crediti automatici
+    t.crediti = calculateCredits(t.ranking);
+
+    fwrite(&t, sizeof(Tennista), 1, fp);
+
+    fclose(fp);
+
+    printf("Tennista salvato correttamente!\n");
+}
