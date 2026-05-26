@@ -1,4 +1,5 @@
 #include <stdio.h>
+
 #include "models.h"
 #include "ranking.h"
 
@@ -11,7 +12,7 @@ int calculatePlayerPoints(Match match, int playerId)
     // PLAYER 1
     if(playerId == match.player1Id)
     {
-        // Vittoria
+        // Victory
         if(match.winnerId == playerId)
         {
             points += 10;
@@ -23,14 +24,14 @@ int calculatePlayerPoints(Match match, int playerId)
         // Break
         points += match.break1;
 
-        // Doppi falli
+        // Double faults
         points -= match.doppiFalli1;
     }
 
     // PLAYER 2
     else if(playerId == match.player2Id)
     {
-        // Vittoria
+        // Victory
         if(match.winnerId == playerId)
         {
             points += 10;
@@ -42,7 +43,7 @@ int calculatePlayerPoints(Match match, int playerId)
         // Break
         points += match.break2;
 
-        // Doppi falli
+        // Double faults
         points -= match.doppiFalli2;
     }
 
