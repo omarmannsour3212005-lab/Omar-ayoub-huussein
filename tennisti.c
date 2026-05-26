@@ -338,3 +338,37 @@ void addTennista()
 
     printf("Tennista salvato correttamente!\n");
 }
+
+void viewTennisti()
+{
+    FILE *fp;
+
+    Tennista t;
+
+    fp = fopen("players.dat", "rb");
+
+    if(fp == NULL)
+    {
+        printf("Nessun giocatore trovato!\n");
+        return;
+    }
+
+    printf("\n===== LISTA TENNISTI =====\n");
+
+    while(fread(&t, sizeof(Tennista), 1, fp))
+    {
+        printf("\nID: %d", t.id);
+
+        printf("\nNome: %s", t.nome);
+
+        printf("\nCognome: %s", t.cognome);
+
+        printf("\nRanking: %d", t.ranking);
+
+        printf("\nCrediti: %d", t.crediti);
+
+        printf("\nDisponibile: %d\n", t.disponibile);
+    }
+
+    fclose(fp);
+}
