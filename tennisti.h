@@ -32,4 +32,6 @@ int caricaTennisti(Tennista arr[]);
 
 void generaReportTennisti();
 
+void addTennista();
+
 #endif
