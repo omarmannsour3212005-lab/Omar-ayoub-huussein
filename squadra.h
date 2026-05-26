@@ -4,5 +4,6 @@
 void createTeam();
 void modifyTeam();
 void displayTeam();
+void viewTeams();
 
 #endif
