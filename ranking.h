@@ -1,13 +1,10 @@
 #ifndef RANKING_H
 #define RANKING_H
 
-// Calculate player points
-int calculatePlayerPoints();
+#include "models.h"
 
-// Show tournament ranking
+int calculatePlayerPoints(Match match, int playerId);
+
 void showTournamentRanking();
 
-// Show general ranking
-void showGeneralRanking();
-
-#endif 
+#endif
