@@ -1,10 +1,13 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "players.h"
 #include "tornei.h"
 #include "ranking.h"
 #include "coach.h"
 #include "squadre.h"
+
+// ================= ADMIN MENU =================
 
 void menuAdmin() {
 
@@ -19,7 +22,16 @@ void menuAdmin() {
         printf("0. Torna indietro\n");
 
         printf("Scelta: ");
-        scanf("%d", &scelta);
+
+        if(scanf("%d", &scelta) != 1) {
+
+            printf("Input non valido!\n");
+
+            while(getchar() != '\n');
+
+            scelta = -1;
+            continue;
+        }
 
         switch(scelta) {
 
@@ -46,6 +58,9 @@ void menuAdmin() {
     } while(scelta != 0);
 }
 
+
+// ================= COACH MENU =================
+
 void menuCoach() {
 
     int scelta;
@@ -53,14 +68,24 @@ void menuCoach() {
     do {
 
         printf("\n======= MENU FANTA COACH =======\n");
+
         printf("1. Registrazione Coach\n");
         printf("2. Creazione Squadra\n");
         printf("3. Modifica Squadra\n");
-        printf("4. Visualizza Squadra\n");
+        printf("4. Visualizza Squadre\n");
         printf("0. Torna indietro\n");
 
         printf("Scelta: ");
-        scanf("%d", &scelta);
+
+        if(scanf("%d", &scelta) != 1) {
+
+            printf("Input non valido!\n");
+
+            while(getchar() != '\n');
+
+            scelta = -1;
+            continue;
+        }
 
         switch(scelta) {
 
@@ -91,6 +116,9 @@ void menuCoach() {
     } while(scelta != 0);
 }
 
+
+// ================= MAIN =================
+
 int main() {
 
     int scelta;
@@ -107,7 +135,16 @@ int main() {
         printf("0. Esci\n");
 
         printf("Scelta: ");
-        scanf("%d", &scelta);
+
+        if(scanf("%d", &scelta) != 1) {
+
+            printf("Input non valido!\n");
+
+            while(getchar() != '\n');
+
+            scelta = -1;
+            continue;
+        }
 
         switch(scelta) {
 
