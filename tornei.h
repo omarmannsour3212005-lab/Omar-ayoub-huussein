@@ -4,5 +4,6 @@
 void addTorneo();
 void viewTornei();
 void deleteTorneo();
+void addMatch();
 
 #endif
