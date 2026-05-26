@@ -1,62 +1,16 @@
-#include <stdio.h>
-
-#include "models.h"
-#include "ranking.h"
-
-// ==================== CALCULATE PLAYER POINTS ====================
-
-int calculatePlayerPoints(Match match, int playerId)
-{
-    int points = 0;
-
-    // PLAYER 1
-    if(playerId == match.player1Id)
-    {
-        // Victory
-        if(match.winnerId == playerId)
-        {
-            points += 10;
-        }
-
-        // Ace
-        points += match.ace1 * 2;
-
-        // Break
-        points += match.break1;
-
-        // Double faults
-        points -= match.doppiFalli1;
-    }
-
-    // PLAYER 2
-    else if(playerId == match.player2Id)
-    {
-        // Victory
-        if(match.winnerId == playerId)
-        {
-            points += 10;
-        }
-
-        // Ace
-        points += match.ace2 * 2;
-
-        // Break
-        points += match.break2;
-
-        // Double faults
-        points -= match.doppiFalli2;
-    }
-
-    return points;
-}
-
-// ==================== SHOW TOURNAMENT RANKING ====================
-
 void showTournamentRanking()
 {
     FILE *fp;
 
     Match match;
+
+    int playerIds[100];
+    int totalPoints[100];
+
+    int count = 0;
+
+    int i;
+    int found;
 
     fp = fopen("matches.dat", "rb");
 
@@ -65,8 +19,6 @@ void showTournamentRanking()
         printf("Nessun match trovato!\n");
         return;
     }
-
-    printf("\n===== TOURNAMENT RANKING =====\n");
 
     while(fread(&match, sizeof(Match), 1, fp))
     {
@@ -77,14 +29,57 @@ void showTournamentRanking()
 
         p2Points = calculatePlayerPoints(match, match.player2Id);
 
-        printf("\nPlayer %d -> %d punti",
-               match.player1Id,
-               p1Points);
+        // PLAYER 1
+        found = 0;
 
-        printf("\nPlayer %d -> %d punti\n",
-               match.player2Id,
-               p2Points);
+        for(i = 0; i < count; i++)
+        {
+            if(playerIds[i] == match.player1Id)
+            {
+                totalPoints[i] += p1Points;
+                found = 1;
+                break;
+            }
+        }
+
+        if(!found)
+        {
+            playerIds[count] = match.player1Id;
+            totalPoints[count] = p1Points;
+            count++;
+        }
+
+        // PLAYER 2
+        found = 0;
+
+        for(i = 0; i < count; i++)
+        {
+            if(playerIds[i] == match.player2Id)
+            {
+                totalPoints[i] += p2Points;
+                found = 1;
+                break;
+            }
+        }
+
+        if(!found)
+        {
+            playerIds[count] = match.player2Id;
+            totalPoints[count] = p2Points;
+            count++;
+        }
     }
 
     fclose(fp);
+
+    printf("\n===== TOURNAMENT RANKING =====\n");
+
+    for(i = 0; i < count; i++)
+    {
+        printf("\nPlayer %d -> %d punti",
+               playerIds[i],
+               totalPoints[i]);
+    }
+
+    printf("\n");
 }
