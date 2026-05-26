@@ -34,4 +34,6 @@ void generaReportTennisti();
 
 void addTennista();
 
+void viewTennisti();
+
 #endif
