@@ -77,7 +77,7 @@ void menuCoach() {
                 break;
 
             case 4:
-                displayTeam();
+                viewTeams();
                 break;
 
             case 0:
