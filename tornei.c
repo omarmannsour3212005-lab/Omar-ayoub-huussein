@@ -2,218 +2,119 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "models.h"
 #include "tornei.h"
 
-#define TOURNAMENT_FILE "tornei.dat"
+// ==================== ADD TORNEO ====================
 
-// ==========================================
-// ADD TOURNAMENT
-// ==========================================
-
-void addTorneo() {
-
+void addTorneo()
+{
     FILE *fp;
 
-    Torneo torneo;
+    Torneo t;
 
-    fp = fopen(TOURNAMENT_FILE, "ab");
+    fp = fopen("tornei.dat", "ab");
 
-    if(fp == NULL) {
-        printf("Error opening file!\n");
+    if(fp == NULL)
+    {
+        printf("Errore apertura file!\n");
         return;
     }
 
-    printf("\n=== ADD TOURNAMENT ===\n");
+    printf("\n===== AGGIUNGI TORNEO =====\n");
 
-    printf("Insert tournament ID: ");
-    scanf("%d", &torneo.id);
+    printf("Inserisci ID torneo: ");
+    scanf("%d", &t.id);
 
-    if(torneoExists(torneo.id)) {
-        printf("Tournament already exists!\n");
-        fclose(fp);
-        return;
-    }
+    printf("Inserisci nome torneo: ");
+    scanf("%s", t.nome);
 
-    printf("Insert tournament name: ");
-    scanf(" %[^\n]", torneo.nome);
+    t.winnerId = -1;
 
-    torneo.winnerId = -1;
-
-    fwrite(&torneo, sizeof(Torneo), 1, fp);
+    fwrite(&t, sizeof(Torneo), 1, fp);
 
     fclose(fp);
 
-    printf("Tournament added successfully!\n");
+    printf("Torneo salvato correttamente!\n");
 }
 
+// ==================== VIEW TORNEI ====================
 
-// ==========================================
-// VIEW TOURNAMENTS
-// ==========================================
-
-void viewTornei() {
-
+void viewTornei()
+{
     FILE *fp;
 
-    Torneo torneo;
+    Torneo t;
 
-    fp = fopen(TOURNAMENT_FILE, "rb");
+    fp = fopen("tornei.dat", "rb");
 
-    if(fp == NULL) {
-        printf("No tournaments found.\n");
+    if(fp == NULL)
+    {
+        printf("Nessun torneo trovato!\n");
         return;
     }
 
-    printf("\n=== TOURNAMENT LIST ===\n");
+    printf("\n===== LISTA TORNEI =====\n");
 
-    while(fread(&torneo, sizeof(Torneo), 1, fp)) {
-
-        printf("\n----------------------\n");
-
-        printf("ID: %d\n", torneo.id);
-        printf("Name: %s\n", torneo.nome);
-
-        if(torneo.winnerId == -1)
-            printf("Winner: Not decided\n");
-        else
-            printf("Winner ID: %d\n", torneo.winnerId);
+    while(fread(&t, sizeof(Torneo), 1, fp))
+    {
+        printf("\nID: %d\n", t.id);
+        printf("Nome: %s\n", t.nome);
+        printf("Winner ID: %d\n", t.winnerId);
     }
 
     fclose(fp);
 }
 
+// ==================== DELETE TORNEO ====================
 
-// ==========================================
-// SEARCH TOURNAMENT
-// ==========================================
-
-void searchTorneo() {
-
-    FILE *fp;
-
-    Torneo torneo;
-
-    int id;
-    int found = 0;
-
-    fp = fopen(TOURNAMENT_FILE, "rb");
-
-    if(fp == NULL) {
-        printf("No tournaments file found.\n");
-        return;
-    }
-
-    printf("\nInsert tournament ID to search: ");
-    scanf("%d", &id);
-
-    while(fread(&torneo, sizeof(Torneo), 1, fp)) {
-
-        if(torneo.id == id) {
-
-            found = 1;
-
-            printf("\n=== TOURNAMENT FOUND ===\n");
-
-            printf("ID: %d\n", torneo.id);
-            printf("Name: %s\n", torneo.nome);
-
-            if(torneo.winnerId == -1)
-                printf("Winner: Not decided\n");
-            else
-                printf("Winner ID: %d\n", torneo.winnerId);
-
-            break;
-        }
-    }
-
-    fclose(fp);
-
-    if(!found) {
-        printf("Tournament not found.\n");
-    }
-}
-
-
-// ==========================================
-// DELETE TOURNAMENT
-// ==========================================
-
-void deleteTorneo() {
-
+void deleteTorneo()
+{
     FILE *fp;
     FILE *temp;
 
-    Torneo torneo;
+    Torneo t;
 
     int id;
     int found = 0;
 
-    fp = fopen(TOURNAMENT_FILE, "rb");
+    fp = fopen("tornei.dat", "rb");
 
-    if(fp == NULL) {
-        printf("File not found.\n");
+    if(fp == NULL)
+    {
+        printf("Errore apertura file!\n");
         return;
     }
 
     temp = fopen("temp.dat", "wb");
 
-    if(temp == NULL) {
-        printf("Error creating temp file.\n");
-        fclose(fp);
-        return;
-    }
-
-    printf("\nInsert tournament ID to delete: ");
+    printf("Inserisci ID torneo da eliminare: ");
     scanf("%d", &id);
 
-    while(fread(&torneo, sizeof(Torneo), 1, fp)) {
-
-        if(torneo.id == id) {
+    while(fread(&t, sizeof(Torneo), 1, fp))
+    {
+        if(t.id == id)
+        {
             found = 1;
-        } else {
-            fwrite(&torneo, sizeof(Torneo), 1, temp);
+        }
+        else
+        {
+            fwrite(&t, sizeof(Torneo), 1, temp);
         }
     }
 
     fclose(fp);
     fclose(temp);
 
-    remove(TOURNAMENT_FILE);
-    rename("temp.dat", TOURNAMENT_FILE);
+    remove("tornei.dat");
+    rename("temp.dat", "tornei.dat");
 
     if(found)
-        printf("Tournament deleted successfully.\n");
+    {
+        printf("Torneo eliminato correttamente!\n");
+    }
     else
-        printf("Tournament not found.\n");
-}
-
-
-// ==========================================
-// CHECK IF TOURNAMENT EXISTS
-// ==========================================
-
-int torneoExists(int id) {
-
-    FILE *fp;
-
-    Torneo torneo;
-
-    fp = fopen(TOURNAMENT_FILE, "rb");
-
-    if(fp == NULL) {
-        return 0;
+    {
+        printf("Torneo non trovato!\n");
     }
-
-    while(fread(&torneo, sizeof(Torneo), 1, fp)) {
-
-        if(torneo.id == id) {
-
-            fclose(fp);
-            return 1;
-        }
-    }
-
-    fclose(fp);
-
-    return 0;
 }
