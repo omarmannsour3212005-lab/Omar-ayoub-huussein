@@ -179,3 +179,8 @@ void viewTeams() {
 
     fclose(fp);
 }
+
+void modifyTeam() {
+
+    printf("\nModify Team not implemented yet.\n");
+}
