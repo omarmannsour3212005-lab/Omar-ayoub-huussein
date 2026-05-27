@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "players.h"
+#include "tennisti.h"
 #include "tornei.h"
 #include "ranking.h"
 #include "coach.h"
-#include "squadre.h"
+#include "squadra.h"
 
 // ================= ADMIN MENU =================
 
