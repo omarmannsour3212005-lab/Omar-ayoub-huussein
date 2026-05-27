@@ -1,3 +1,40 @@
+int calculatePlayerPoints(Match match, int playerId)
+{
+    int points = 0;
+
+    // WIN / LOSS
+    if(match.winnerId == playerId)
+    {
+        points += 10;
+    }
+    else
+    {
+        points -= 3;
+    }
+
+    // BONUS 2 SETS
+    if(match.twoSetsWinnerId == playerId)
+    {
+        points += 3;
+    }
+
+    // ACES
+    if(match.player1Id == playerId)
+    {
+        points += match.player1Aces * 2;
+        points += match.player1Breaks * 0.5;
+        points -= match.player1DoubleFaults;
+    }
+    else
+    {
+        points += match.player2Aces * 2;
+        points += match.player2Breaks * 0.5;
+        points -= match.player2DoubleFaults;
+    }
+
+    return points;
+}
+
 void showTournamentRanking()
 {
     FILE *fp;
