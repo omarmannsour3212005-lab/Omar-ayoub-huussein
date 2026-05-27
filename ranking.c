@@ -12,24 +12,24 @@ int calculatePlayerPoints(Match match, int playerId)
         points -= 3;
     }
 
-    // BONUS 2 SETS
-    if(match.twoSetsWinnerId == playerId)
-    {
-        points += 3;
-    }
-
-    // ACES
+    // PLAYER 1
     if(match.player1Id == playerId)
     {
-        points += match.player1Aces * 2;
-        points += match.player1Breaks * 0.5;
-        points -= match.player1DoubleFaults;
+        points += match.ace1 * 2;
+
+        points += match.break1 * 0.5;
+
+        points -= match.doppiFalli1;
     }
+
+    // PLAYER 2
     else
     {
-        points += match.player2Aces * 2;
-        points += match.player2Breaks * 0.5;
-        points -= match.player2DoubleFaults;
+        points += match.ace2 * 2;
+
+        points += match.break2 * 0.5;
+
+        points -= match.doppiFalli2;
     }
 
     return points;
